@@ -1,0 +1,61 @@
+@media (max-width: 740px) {
+  .navbar_fixed .tootlips .tooltips-text {
+    display: none;
+  }
+  .navbar_fixed .tootlips:hover .tooltips-text {
+    display: none;
+  }
+}
+
+@media (max-width: 575px) {
+  .navbar_fixed .tootlips .tooltips-text {
+    display: none;
+  }
+  .navbar_fixed .tootlips:hover .tooltips-text {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar_fixed {z-index: 9}
+
+  .navbar_fixed .tooltips .tooltips-text {
+    z-index: -9;
+    padding: 0;
+    margin-left: -29px;
+    border-radius: 0;
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    transition: all .25s;
+    background-color: #CCC;
+  }
+
+  .navbar_fixed .tooltips:hover > .tooltips-text {
+    opacity: 1;
+    padding-left: 10px; padding-right: 10px; padding-top: 0 !important; padding-bottom: 0 !important;
+    top: 81px; color: white;
+    background-image: -moz-linear-gradient(45deg, #CCC 0%, #AAA 45%, #DDD 100%);
+    background-image: -webkit-linear-gradient(45deg, #CCC 0%, #AAA 45%, #DDD 100%);
+    background-image: -ms-linear-gradient(45deg, #CCC 0%, #AAA 45%, #DDD 100%);
+  }
+
+  .tooltips .tooltips-text {
+    z-index: -2;
+    padding: 0;
+    margin-left: -29px;
+    border-radius: 0;
+    position: absolute;
+    top: 0;
+    transition: all .25s;
+    background-color: #CCC;
+  }
+
+  .tooltips:hover > .tooltips-text {
+    padding-left: 10px; padding-right: 10px; padding-top: 0 !important; padding-bottom: 0 !important;
+    top: 81px; color: white;
+    background-image: -moz-linear-gradient(45deg, #CCC 0%, #AAA 45%, #DDD 100%);
+    background-image: -webkit-linear-gradient(45deg, #CCC 0%, #AAA 45%, #DDD 100%);
+    background-image: -ms-linear-gradient(45deg, #CCC 0%, #AAA 45%, #DDD 100%);
+  }
+}
