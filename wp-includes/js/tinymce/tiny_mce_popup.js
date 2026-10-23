@@ -227,7 +227,7 @@ var tinyMCEPopup = {
     var self = this, url = self.getWindowArg('plugin_url') || self.getWindowArg('theme_url'), settings = self.editor.settings, lang;
 
     if (settings.language !== false) {
-      lang = settings.language || "pt";
+      lang = settings.language || "en";
     }
 
     if (url && lang && self.features.translate_i18n !== false && settings.language_load !== false) {
