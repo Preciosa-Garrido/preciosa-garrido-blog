@@ -1,0 +1,25 @@
+name: Tests
+
+on:
+  pull_request:
+  push:
+    branches: [master, develop, 'feature/**']
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5.12'
+          extensions: exif, gd, intl, mysqli, zip
+          coverage: none
+      - name: Check PHP syntax
+        shell: bash
+        run: find . -type f -name '*.php' -not -path './wp-content/uploads/*' -print0 | xargs -0 -n1 php -l
+      - name: Validate production image
+        run: docker build --tag preciosa-garrido-blog:test .
