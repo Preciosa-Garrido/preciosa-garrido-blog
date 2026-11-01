@@ -1,0 +1,9 @@
+.git
+.github
+.DS_Store
+*.log
+.plugin-upgrade
+.wordpress-upgrade
+*.zip
+wp-content/cache
+wp-content/upgrade

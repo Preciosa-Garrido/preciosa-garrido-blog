@@ -20,16 +20,16 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'preciosagarridoblog');
+define('DB_NAME', getenv('WORDPRESS_DB_NAME') ?: 'preciosagarridoblog');
 
 /** MySQL database username */
-define('DB_USER', 'root');
+define('DB_USER', getenv('WORDPRESS_DB_USER') ?: 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', getenv('WORDPRESS_DB_PASSWORD') ?: '');
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define('DB_HOST', getenv('WORDPRESS_DB_HOST') ?: 'localhost');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8mb4');
@@ -78,6 +78,7 @@ $table_prefix  = 'pg_';
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define('WP_DEBUG', false);
+ini_set('display_errors', '0');
 
 /* That's all, stop editing! Happy blogging. */
 
