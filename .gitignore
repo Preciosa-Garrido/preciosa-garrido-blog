@@ -3,6 +3,24 @@
 !/.env.example
 /.idea
 /.vscode
+/vendor/
+
+# WordPress is supplied by the pinned container image.
+/wp-admin/
+/wp-includes/
+/index.php
+/license.txt
+/readme.html
+/wp-*.php
+/xmlrpc.php
+/wp-config.php
+
+# Third-party plugins are restored from composer.lock.
+/wp-content/plugins/*
+!/wp-content/plugins/.gitkeep
+
+# Runtime data belongs in persistent storage, not Git.
+/wp-content/uploads/
 
 *.log
 *.sql
