@@ -1,0 +1,32 @@
+{
+    "name": "preciosa-garrido/blog",
+    "description": "Managed third-party dependencies for the Preciosa Garrido WordPress site.",
+    "type": "project",
+    "license": "proprietary",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        }
+    ],
+    "require": {
+        "composer/installers": "^2.3",
+        "wpackagist-plugin/advanced-custom-fields": "6.8.10",
+        "wpackagist-plugin/akismet": "5.7.2",
+        "wpackagist-plugin/contact-form-7": "6.2.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        },
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "installer-paths": {
+            "wp-content/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ]
+        }
+    }
+}

@@ -5,5 +5,15 @@
 .plugin-upgrade
 .wordpress-upgrade
 *.zip
+wp-admin
+wp-includes
+wp-*.php
+index.php
+license.txt
+readme.html
+xmlrpc.php
+wp-config.php
+wp-content/plugins
+wp-content/uploads
 wp-content/cache
 wp-content/upgrade

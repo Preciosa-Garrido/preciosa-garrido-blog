@@ -27,6 +27,25 @@ Reference that secret from the workload's `imagePullSecrets`. The CI workflow
 publishes with the repository-scoped `GITHUB_TOKEN`; no separate push token is
 required.
 
-`wp-content/uploads` is currently included in the image for migration
-compatibility. Production should move uploads to persistent storage or an
-object-storage plugin before enabling automated cleanup or horizontal scaling.
+The image contains a pinned WordPress release, locked third-party plugin
+versions, and the custom theme. It does not contain runtime configuration or
+uploads.
+
+Provide WordPress configuration through environment variables supported by the
+official image, including `WORDPRESS_DB_HOST`, `WORDPRESS_DB_NAME`,
+`WORDPRESS_DB_USER`, and `WORDPRESS_DB_PASSWORD`. Keep authentication salts in
+Kubernetes secrets rather than in Git.
+
+Configure all eight stable authentication values as secrets so that container
+restarts do not invalidate active sessions: `WORDPRESS_AUTH_KEY`,
+`WORDPRESS_SECURE_AUTH_KEY`, `WORDPRESS_LOGGED_IN_KEY`, `WORDPRESS_NONCE_KEY`,
+`WORDPRESS_AUTH_SALT`, `WORDPRESS_SECURE_AUTH_SALT`,
+`WORDPRESS_LOGGED_IN_SALT`, and `WORDPRESS_NONCE_SALT`. Generate new values for
+the first deployment of this image; the old values were previously committed.
+
+Core, plugin, and theme changes through wp-admin are disabled in the image.
+Updates must change the pinned image or `composer.lock`, pass CI, and be
+deployed through the normal release workflow.
+
+Mount `wp-content/uploads` from persistent storage or configure an
+object-storage plugin before deploying. All replicas must see the same media.

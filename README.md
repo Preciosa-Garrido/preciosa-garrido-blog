@@ -1,29 +1,27 @@
-# README #
+# Preciosa Garrido Blog
 
-This README would normally document whatever steps are necessary to get your application up and running.
+WordPress application for Preciosa Garrido. The repository intentionally
+contains only application-owned code and deployment configuration.
 
-### What is this repository for? ###
+## What is versioned
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+- the custom `preciosagarrido` theme;
+- exact third-party plugin versions in `composer.lock`;
+- the production Docker image definition;
+- CI/CD workflows and deployment documentation.
 
-### How do I get set up? ###
+WordPress core is supplied by the pinned official container image. Plugins are
+installed by Composer. Uploads, database content, generated caches, and
+`wp-config.php` are runtime state and must not be committed.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+## Local development
 
-### Contribution guidelines ###
+Run the Compose project from the sibling `preciosa-garrido` repository:
 
-* Writing tests
-* Code review
-* Other guidelines
+```sh
+docker compose up --build
+```
 
-### Who do I talk to? ###
-
-* Repo owner or admin
+The custom theme and uploads are mounted from this working tree for local
+development. See `DEPLOYMENT.md` for GitHub and Kubernetes configuration.
 * Other community or team contact

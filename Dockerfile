@@ -1,21 +1,29 @@
-FROM php:8.5.12-apache-bookworm@sha256:5e4418695f9b13b75edefaff547125bf6be267e865931731bdd5946461505736
+FROM composer:2 AS dependencies
 
-RUN a2enmod rewrite headers expires \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-        libfreetype6-dev \
-        libicu-dev \
-        libjpeg62-turbo-dev \
-        libonig-dev \
-        libpng-dev \
-        libzip-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j"$(nproc)" exif gd intl mbstring mysqli zip \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-progress \
+    --prefer-dist \
+    --optimize-autoloader
 
-WORKDIR /var/www/html
-COPY . .
+FROM wordpress:7.1.3-php8.5-apache@sha256:89e44e84974773a97b5ca5fa21b95377d372956fc9d7d1ad363e9fe062d5fe56
 
-RUN chown -R www-data:www-data wp-content
+ENV WORDPRESS_CONFIG_EXTRA="define('DISALLOW_FILE_MODS', true); define('AUTOMATIC_UPDATER_DISABLED', true);"
+
+# Every plugin is restored at the locked version instead of inherited from the
+# upstream image or committed as third-party source code.
+RUN rm -rf /usr/src/wordpress/wp-content/plugins/*
+
+COPY --from=dependencies --chown=www-data:www-data \
+    /app/wp-content/plugins/ \
+    /usr/src/wordpress/wp-content/plugins/
+COPY --chown=www-data:www-data \
+    wp-content/themes/preciosagarrido/ \
+    /usr/src/wordpress/wp-content/themes/preciosagarrido/
+COPY --chown=www-data:www-data .htaccess /usr/src/wordpress/.htaccess
+COPY docker/php.ini /usr/local/etc/php/conf.d/preciosa.ini
 
 EXPOSE 80
