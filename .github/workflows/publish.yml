@@ -2,7 +2,7 @@ name: Publish and deploy image
 
 on:
   push:
-    branches: [release/dev]
+    branches: [dev]
     tags: ['v*.*.*']
 
 permissions:
@@ -14,7 +14,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  tests:
+    uses: ./.github/workflows/ci.yml
+
   publish:
+    needs: tests
     runs-on: ubuntu-latest
     outputs:
       image: ${{ steps.image.outputs.value }}
@@ -40,8 +44,8 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=sha,prefix=dev-,enable=${{ github.ref == 'refs/heads/release/dev' }}
-            type=raw,value=latest-dev,enable=${{ github.ref == 'refs/heads/release/dev' }}
+            type=sha,prefix=dev-,enable=${{ github.ref == 'refs/heads/dev' }}
+            type=raw,value=latest-dev,enable=${{ github.ref == 'refs/heads/dev' }}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
       - uses: docker/build-push-action@v6
@@ -64,6 +68,7 @@ jobs:
           echo "value=ghcr.io/${GITHUB_REPOSITORY}:${VERSION}" >> "$GITHUB_OUTPUT"
 
   deploy:
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     needs: publish
     environment: ${{ needs.publish.outputs.environment }}
