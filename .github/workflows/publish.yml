@@ -60,12 +60,13 @@ jobs:
         id: image
         shell: bash
         run: |
+          REPOSITORY="${GITHUB_REPOSITORY,,}"
           if [[ "$GITHUB_REF" == refs/tags/* ]]; then
             VERSION="${GITHUB_REF_NAME#v}"
           else
             VERSION="dev-${GITHUB_SHA::7}"
           fi
-          echo "value=ghcr.io/${GITHUB_REPOSITORY}:${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "value=ghcr.io/${REPOSITORY}:${VERSION}" >> "$GITHUB_OUTPUT"
 
   deploy:
     if: ${{ vars.DEPLOY_ENABLED == 'true' }}
